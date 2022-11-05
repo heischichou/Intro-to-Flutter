@@ -29,7 +29,7 @@ class PasswordInputField extends StatelessWidget {
         suffixIcon: GestureDetector(
           onTap: onTap,
           child: Icon(
-            obscureText ? Icons.visibility : Icons.visibility_off,
+            obscureText ? Icons.visibility_off : Icons.visibility,
           ),
         ),
         border: const OutlineInputBorder(
