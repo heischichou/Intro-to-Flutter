@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
+  static const String routeName = '/dashboard';
   const Dashboard({super.key});
 
   @override
@@ -14,8 +15,10 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         title: const Text('Dashboard'),
       ),
-      body: const Center(
-        child: Text('Dashboard'),
+      body: const SingleChildScrollView(
+        child: Center(
+          child: Text('Dashboard'),
+        )
       ),
     );
   }

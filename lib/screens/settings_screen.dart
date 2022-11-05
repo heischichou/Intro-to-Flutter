@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
+  static const String routeName = '/settings';
   const Settings({super.key});
 
   @override
@@ -9,8 +10,10 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: const Center(
-        child: Text('Settings'),
+      body: const SingleChildScrollView(
+        child: Center(
+          child: Text('Settings'),
+        )
       ),
     );
   }

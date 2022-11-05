@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/user.dart';
 
 class Login extends StatefulWidget {
+  static const String routeName = '/login';
   const Login({super.key});
 
   @override
@@ -14,8 +15,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text('Login'),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Text('Dashboard'),
+        )
       ),
     );
   }

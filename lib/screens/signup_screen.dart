@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Signup extends StatelessWidget {
+  static const String routeName = '/signup';
   const Signup({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text('Sign Up'),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Text('Dashboard'),
+        )
       ),
     );
   }
