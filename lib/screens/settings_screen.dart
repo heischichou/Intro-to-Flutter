@@ -14,7 +14,9 @@ class Settings extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => {
-              Navigator.of(context).pushNamedAndRemoveUntil(Login.routeName, (Route<dynamic> route) => false)
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                Login.routeName, (Route<dynamic> route) => false
+              )
             },
           ),
         ],
@@ -26,9 +28,9 @@ class Settings extends StatelessWidget {
               children: const [
                 Text('Settings'),
               ],
-            )
-          )
+            ),
           ),
+        ),
       ),
     );
   }

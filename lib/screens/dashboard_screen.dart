@@ -18,9 +18,7 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () => {
-              Navigator.pushNamed(context, Settings.routeName)
-            },
+            onPressed: () => {Navigator.pushNamed(context, Settings.routeName)},
           ),
         ],
       ),
@@ -31,9 +29,9 @@ class _DashboardState extends State<Dashboard> {
               children: const [
                 Text('Dashboard'),
               ],
-            )
-          )
+            ),
           ),
+        ),
       ),
     );
   }
