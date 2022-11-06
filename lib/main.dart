@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intro/routes.dart';
-import 'package:flutter_intro/screens/dashboard_screen.dart';
+import 'package:flutter_intro/screens/login_screen.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: Dashboard.routeName,
+    initialRoute: Login.routeName,
     routes: routes,
   ));
 }
