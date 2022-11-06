@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import './screens/dashboard_screen.dart';
+import 'package:flutter_intro/routes.dart';
+import 'package:flutter_intro/screens/dashboard_screen.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: Dashboard(),
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: Dashboard.routeName,
+    routes: routes,
   ));
 }

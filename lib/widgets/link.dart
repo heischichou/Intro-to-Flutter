@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 class Link extends StatelessWidget {
   final String text;
-  const Link(this.text, {super.key});
+  final VoidCallback onTap;
+  const Link(this.text, this.onTap, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {},
+        onTap: onTap,
         child: Text(
           text,
           style: const TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

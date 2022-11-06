@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intro/screens/settings_screen.dart';
 
 class Dashboard extends StatefulWidget {
   static const String routeName = '/dashboard';
@@ -14,11 +15,25 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => {
+              Navigator.pushNamed(context, Settings.routeName)
+            },
+          ),
+        ],
       ),
-      body: const SingleChildScrollView(
-        child: Center(
-          child: Text('Dashboard'),
-        )
+      body: Center(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: const [
+                Text('Dashboard'),
+              ],
+            )
+          )
+          ),
       ),
     );
   }
