@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_intro/models/user.dart';
 import 'package:flutter_intro/widgets/input_field.dart';
 import 'package:flutter_intro/widgets/password_input_field.dart';
 import 'package:flutter_intro/widgets/primary_button.dart';
@@ -16,7 +15,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  List<User> _users = [];
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true;
