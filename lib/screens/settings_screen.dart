@@ -26,7 +26,13 @@ class Settings extends StatelessWidget {
           child: Center(
             child: Column(
               children: const [
-                Text('Settings'),
+                Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
