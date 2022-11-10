@@ -12,6 +12,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    final email = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -26,8 +28,21 @@ class _DashboardState extends State<Dashboard> {
         child: SingleChildScrollView(
           child: Center(
             child: Column(
-              children: const [
-                Text('Dashboard'),
+              children: [
+                const Text(
+                  'Welcome to the Dashboard,',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '$email!',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ],
             ),
           ),

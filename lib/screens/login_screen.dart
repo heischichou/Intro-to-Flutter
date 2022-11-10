@@ -65,8 +65,14 @@ class _LoginState extends State<Login> {
                     PrimaryButton(
                       "Login", 
                       Icons.login,
-                      () => {
-                        Navigator.pushReplacementNamed(context, Dashboard.routeName)
+                      () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.pushReplacementNamed(
+                            context, 
+                            Dashboard.routeName,
+                            arguments: _emailController.text
+                          );
+                        }
                       }
                     ),
                     const SizedBox(
