@@ -109,7 +109,9 @@ class _SignupState extends State<Signup> {
                     Link(
                       "Already have an account? Login",
                       () {
-                        Navigator.pushReplacementNamed(context, Login.routeName);
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.pushReplacementNamed(context, Login.routeName);
+                        }
                       }
                     ),
                   ],
