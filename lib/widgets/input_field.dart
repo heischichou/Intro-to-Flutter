@@ -18,6 +18,7 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
+      controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
