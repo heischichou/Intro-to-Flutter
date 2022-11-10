@@ -20,6 +20,14 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,45 +39,49 @@ class _LoginState extends State<Login> {
           child: Center(
             child: SizedBox(
               width: screenWidth * .90,
-              child: Column(
-                children: [
-                  InputField(
-                    "Email Adrdress", 
-                    "Enter your email address", 
-                    _emailController, 
-                    TextInputType.emailAddress
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  PasswordInputField(
-                    "Password", 
-                    "Enter your password", 
-                    obscureText, 
-                    _passwordController, 
-                    TextInputType.visiblePassword,
-                    toggleObsecurePassword
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  PrimaryButton(
-                    "Login", 
-                    Icons.login,
-                    () => {
-                      Navigator.pushReplacementNamed(context, Dashboard.routeName)
-                    }
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Link(
-                    "Don't have an account? Sign Up",
-                    () {
-                      Navigator.pushReplacementNamed(context, Signup.routeName);
-                    },
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    InputField(
+                      "Email Adrdress", 
+                      "Enter your email address", 
+                      _emailController, 
+                      TextInputType.emailAddress
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    PasswordInputField(
+                      "Password", 
+                      "Enter your password", 
+                      obscureText, 
+                      _passwordController, 
+                      TextInputType.visiblePassword,
+                      toggleObsecurePassword,
+                      null
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    PrimaryButton(
+                      "Login", 
+                      Icons.login,
+                      () => {
+                        Navigator.pushReplacementNamed(context, Dashboard.routeName)
+                      }
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Link(
+                      "Don't have an account? Sign Up",
+                      () {
+                        Navigator.pushReplacementNamed(context, Signup.routeName);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

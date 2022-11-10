@@ -27,6 +27,9 @@ class InputField extends StatelessWidget {
           ),
         ),
       ),
+      validator: (value) {
+        return (controller.text.isEmpty) ? '$labelText is required.' : null;
+      },
     );
   }
 }

@@ -15,11 +15,23 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool obscureText = true;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,91 +43,77 @@ class _SignupState extends State<Signup> {
           child: Center(
             child: SizedBox(
               width: screenWidth * .90,
-              child: Column(
-                children: [
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    InputField(
+                      "First Name", 
+                      "Enter your first name", 
+                      _firstNameController, 
+                      TextInputType.text
                     ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  InputField(
-                    "First Name", 
-                    "Enter your first name", 
-                    _nameController, 
-                    TextInputType.text
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  InputField(
-                    "Last Name", 
-                    "Enter your last name", 
-                    _nameController, 
-                    TextInputType.text
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  InputField(
-                    "Address", 
-                    "Enter your present address", 
-                    _addressController, 
-                    TextInputType.streetAddress
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  InputField(
-                    "Email Adrdress", 
-                    "Enter your email address", 
-                    _emailController, 
-                    TextInputType.emailAddress
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  PasswordInputField(
-                    "Password", 
-                    "Enter your password", 
-                    obscureText, 
-                    _passwordController, 
-                    TextInputType.visiblePassword,
-                    toggleObsecurePassword
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  PasswordInputField(
-                    "Confirm Password", 
-                    "Confirm your new password", 
-                    obscureText, 
-                    _passwordController, 
-                    TextInputType.visiblePassword,
-                    toggleObsecurePassword
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  PrimaryButton(
-                    "Sign Up", 
-                    Icons.login,
-                    () => {}
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Link(
-                    "Already have an account? Login",
-                    () {
-                      Navigator.pushReplacementNamed(context, Login.routeName);
-                    }
-                  ),
-                ],
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    InputField(
+                      "Last Name", 
+                      "Enter your last name", 
+                      _lastNameController, 
+                      TextInputType.text
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    InputField(
+                      "Email Adrdress", 
+                      "Enter your email address", 
+                      _emailController, 
+                      TextInputType.emailAddress
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    PasswordInputField(
+                      "Password", 
+                      "Enter your password", 
+                      obscureText, 
+                      _passwordController, 
+                      TextInputType.visiblePassword,
+                      toggleObsecurePassword,
+                      null
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    PasswordInputField(
+                      "Confirm Password", 
+                      "Confirm your new password", 
+                      obscureText, 
+                      _confirmPasswordController, 
+                      TextInputType.visiblePassword,
+                      toggleObsecurePassword,
+                      _confirmPasswordController.text
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    PrimaryButton(
+                      "Sign Up", 
+                      Icons.login,
+                      () => {}
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Link(
+                      "Already have an account? Login",
+                      () {
+                        Navigator.pushReplacementNamed(context, Login.routeName);
+                      }
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

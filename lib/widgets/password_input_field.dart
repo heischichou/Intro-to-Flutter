@@ -7,6 +7,7 @@ class PasswordInputField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final VoidCallback onTap;
+  final String? repeatPassword;
   
   const PasswordInputField(
     this.labelText, 
@@ -15,6 +16,7 @@ class PasswordInputField extends StatelessWidget {
     this.controller, 
     this.keyboardType, 
     this.onTap, 
+    this.repeatPassword,
     {super.key}
   );
 
@@ -38,6 +40,14 @@ class PasswordInputField extends StatelessWidget {
           ),
         ),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$labelText is required.';
+        } else if(repeatPassword != null && value != repeatPassword) {
+          return 'Passwords do not match';
+        }
+        return null;
+      },
     );
   }
 }
