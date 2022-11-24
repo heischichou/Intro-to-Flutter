@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intro/screens/login_screen.dart';
 import 'package:flutter_intro/services/auth_service.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class Settings extends StatelessWidget {
-  AuthService authService = AuthService();
+class Settings extends StatefulWidget {
   static const String routeName = '/settings';
-  Settings({super.key});
+  const Settings({super.key});
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  AuthService authService = AuthService();
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +23,31 @@ class Settings extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => {
+            onPressed: () {
+              logout();
               Navigator.of(context).pushNamedAndRemoveUntil(
                 Login.routeName, (Route<dynamic> route) => false
-              )
+              );
             },
           ),
         ],
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: const [
-                Text(
-                  'Settings',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        child: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: const [
+                  Text(
+                    'Settings',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -45,7 +57,15 @@ class Settings extends StatelessWidget {
 
   logout() async {
     try {
+      setState(() {
+        showSpinner = true;
+      });
+
       await authService.logout();
+
+      setState(() {
+        showSpinner = false;
+      });
     } catch (e) {
       // ignore: avoid_print
       print(e);

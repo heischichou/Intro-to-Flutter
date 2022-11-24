@@ -8,5 +8,5 @@ final Map<String, WidgetBuilder> routes = {
   Login.routeName: (BuildContext context) => const Login(),
   Signup.routeName: (BuildContext context) => const Signup(),
   Dashboard.routeName: (BuildContext context) => const Dashboard(),
-  Settings.routeName: (BuildContext context) => Settings(),
+  Settings.routeName: (BuildContext context) => const Settings(),
 };
