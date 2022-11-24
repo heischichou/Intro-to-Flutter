@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_intro/models/user.dart';
 import 'package:flutter_intro/widgets/input_field.dart';
 import 'package:flutter_intro/widgets/password_input_field.dart';
 import 'package:flutter_intro/widgets/primary_button.dart';
 import 'package:flutter_intro/widgets/link.dart';
 import 'package:flutter_intro/screens/login_screen.dart';
+import 'package:flutter_intro/screens/dashboard_screen.dart';
+import 'package:flutter_intro/services/auth_service.dart';
 
 class Signup extends StatefulWidget {
   static const String routeName = '/signup';
@@ -15,6 +16,7 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  AuthService authService = AuthService();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -100,8 +102,23 @@ class _SignupState extends State<Signup> {
                     ),
                     PrimaryButton(
                       "Sign Up", 
-                      Icons.login,
-                      () => {}
+                      Icons.email_outlined,
+                      () {
+                        if (_formKey.currentState!.validate()) {
+                          authService.signUp(
+                            _emailController.text, 
+                            _passwordController.text
+                          ).then((res) {
+                            if (res != null) {
+                              Navigator.pushNamed(
+                                context, 
+                                Dashboard.routeName, 
+                                arguments: _emailController.text
+                              );
+                            }
+                          });
+                        }
+                      }
                     ),
                     const SizedBox(
                       height: 15,

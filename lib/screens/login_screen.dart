@@ -68,12 +68,25 @@ class _LoginState extends State<Login> {
                         height: 25,
                       ),
                       PrimaryButton(
-                        "Login", 
+                        "Sign In", 
                         Icons.login,
                         () {
-                          // if (_formKey.currentState!.validate()) {
-                            loginWithProvider();
-                          //}
+                          if (_formKey.currentState!.validate()) {
+                            login(
+                              _emailController.text, 
+                              _passwordController.text
+                            );
+                          }
+                        }
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      PrimaryButton(
+                        "Sign In with Google", 
+                        Icons.alternate_email,
+                        () {
+                          loginWithProvider();
                         }
                       ),
                       const SizedBox(
@@ -102,19 +115,42 @@ class _LoginState extends State<Login> {
     });
   }
 
+  login(String email, String password) async {
+    try {
+      setState(() {
+        showSpinner = true;
+      });
+
+      var user = await authService.signInWithCredential(email, password);
+      if (user != null) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(
+          context, 
+          Dashboard.routeName,
+          arguments: email
+        );
+      }
+
+      setState(() {
+        showSpinner = false;
+      });
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
   loginWithProvider() async {
     try {
       setState(() {
         showSpinner = true;
       });
 
+      // ignore: unused_local_variable
       var user = await authService.signInWithGoogle();
+      
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(
-        context, 
-        Dashboard.routeName,
-        // arguments: _emailController.text
-      );
+      Navigator.pushReplacementNamed(context, Dashboard.routeName);
 
       setState(() {
         showSpinner = false;
