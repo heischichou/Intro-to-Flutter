@@ -5,6 +5,7 @@ import 'package:flutter_intro/widgets/primary_button.dart';
 import 'package:flutter_intro/widgets/link.dart';
 import 'package:flutter_intro/screens/signup_screen.dart';
 import 'package:flutter_intro/screens/dashboard_screen.dart';
+import 'package:flutter_intro/services/auth_service.dart';
 
 class Login extends StatefulWidget {
   static const String routeName = '/login';
@@ -15,6 +16,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true;
@@ -66,13 +68,9 @@ class _LoginState extends State<Login> {
                       "Login", 
                       Icons.login,
                       () {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacementNamed(
-                            context, 
-                            Dashboard.routeName,
-                            arguments: _emailController.text
-                          );
-                        }
+                        // if (_formKey.currentState!.validate()) {
+                          loginWithProvider();
+                        //}
                       }
                     ),
                     const SizedBox(
@@ -98,5 +96,20 @@ class _LoginState extends State<Login> {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  loginWithProvider() async {
+    try {
+      var user = await authService.signInWithGoogle();
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(
+        context, 
+        Dashboard.routeName,
+        // arguments: _emailController.text
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intro/screens/login_screen.dart';
+import 'package:flutter_intro/services/auth_service.dart';
 
 class Settings extends StatelessWidget {
+  AuthService authService = AuthService();
   static const String routeName = '/settings';
-  const Settings({super.key});
+  Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,5 +41,14 @@ class Settings extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  logout() async {
+    try {
+      await authService.logout();
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
   }
 }
