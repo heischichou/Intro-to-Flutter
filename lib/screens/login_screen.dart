@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intro/models/storage_item.dart';
 import 'package:flutter_intro/widgets/input_field.dart';
 import 'package:flutter_intro/widgets/password_input_field.dart';
 import 'package:flutter_intro/widgets/primary_button.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_intro/widgets/link.dart';
 import 'package:flutter_intro/screens/signup_screen.dart';
 import 'package:flutter_intro/screens/dashboard_screen.dart';
 import 'package:flutter_intro/services/auth_service.dart';
+import 'package:flutter_intro/services/storage_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Login extends StatefulWidget {
@@ -17,11 +19,45 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  AuthService authService = AuthService();
+  final AuthService authService = AuthService();
+  final SecureStorage _storageService = SecureStorage();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool obscureText = true, showSpinner = false;
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> recoverToken() async {
+    try {
+      setState(() {
+        showSpinner = true;
+      });
+
+      final String? token = await _storageService.read("accessToken");
+      final String? email = await _storageService.read("email");
+
+      if(token != null && email != null){
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacementNamed(
+          context, 
+          Dashboard.routeName,
+          arguments: email
+        );
+      }
+
+      setState(() {
+        showSpinner = false;
+      });
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    recoverToken();
+  }
 
   @override
   void dispose() {
@@ -123,6 +159,11 @@ class _LoginState extends State<Login> {
 
       var user = await authService.signInWithCredential(email, password);
       if (user != null) {
+        var accessToken = StorageItem("accessToken", user.credential?.accessToken as String);
+        var email = StorageItem("email", user.user?.email as String);
+
+        await _storageService.store(accessToken);
+        await _storageService.store(email);
         // ignore: use_build_context_synchronously
         Navigator.pushReplacementNamed(
           context, 
@@ -148,9 +189,19 @@ class _LoginState extends State<Login> {
 
       // ignore: unused_local_variable
       var user = await authService.signInWithGoogle();
+
+      var accessToken = StorageItem("accessToken", user.credential?.accessToken as String);
+      var email = StorageItem("email", user.user?.email as String);
+
+      await _storageService.store(accessToken);
+      await _storageService.store(email);
       
       // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, Dashboard.routeName);
+      Navigator.pushReplacementNamed(
+        context, 
+        Dashboard.routeName,
+        arguments: user.user?.email
+      );
 
       setState(() {
         showSpinner = false;

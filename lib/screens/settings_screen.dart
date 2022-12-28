@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intro/screens/login_screen.dart';
 import 'package:flutter_intro/services/auth_service.dart';
+import 'package:flutter_intro/services/storage_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Settings extends StatefulWidget {
@@ -12,7 +13,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  AuthService authService = AuthService();
+  final AuthService authService = AuthService();
+  final SecureStorage _storageService = SecureStorage();
   bool showSpinner = false;
 
   @override
@@ -62,6 +64,7 @@ class _SettingsState extends State<Settings> {
       });
 
       await authService.logout();
+      await _storageService.deleteAll();
 
       setState(() {
         showSpinner = false;

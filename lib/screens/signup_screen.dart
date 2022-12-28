@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intro/models/storage_item.dart';
 import 'package:flutter_intro/widgets/input_field.dart';
 import 'package:flutter_intro/widgets/password_input_field.dart';
 import 'package:flutter_intro/widgets/primary_button.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_intro/widgets/link.dart';
 import 'package:flutter_intro/screens/login_screen.dart';
 import 'package:flutter_intro/screens/dashboard_screen.dart';
 import 'package:flutter_intro/services/auth_service.dart';
+import 'package:flutter_intro/services/storage_service.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Signup extends StatefulWidget {
@@ -17,7 +19,8 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  AuthService authService = AuthService();
+  final AuthService authService = AuthService();
+  final SecureStorage _storageService = SecureStorage();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -108,26 +111,10 @@ class _SignupState extends State<Signup> {
                         Icons.email_outlined,
                         () {
                           if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              showSpinner = false;
-                            });
-                            
-                            authService.signUp(
-                              _emailController.text, 
+                            signUp(
+                              _emailController.text,
                               _passwordController.text
-                            ).then((res) {
-                              if (res != null) {
-                                Navigator.pushNamed(
-                                  context, 
-                                  Dashboard.routeName, 
-                                  arguments: _emailController.text
-                                );
-                              }
-
-                              setState(() {
-                                showSpinner = false;
-                              });
-                            });
+                            );
                           }
                         }
                       ),
@@ -156,6 +143,36 @@ class _SignupState extends State<Signup> {
   toggleObsecurePassword() {
     setState(() {
       obscureText = !obscureText;
+    });
+  }
+
+  signUp (String email, String password) {
+    setState(() {
+      showSpinner = false;
+    });
+    
+    authService.signUp(
+      email,
+      password
+    ).then((res) async {
+      if (res != null) {
+        var accessToken = StorageItem("accessToken", res.credential?.accessToken as String);
+        var userEmail = StorageItem("email", _emailController.text);
+
+        await _storageService.store(accessToken);
+        await _storageService.store(userEmail);
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(
+          context, 
+          Dashboard.routeName, 
+          arguments: email
+        );
+      }
+
+      setState(() {
+        showSpinner = false;
+      });
     });
   }
 }
